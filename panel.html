@@ -130,6 +130,10 @@
                     <i class="fa-solid fa-list-check w-5 text-center"></i>
                     <span>Tareas Pendientes</span>
                 </button>
+				<button onclick="showTab('parametros')" id="nav-parametros" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-slate-800 transition">
+    <i class="fa-solid fa-gear w-5 text-center text-slate-400"></i>
+    <span>Parámetros Globales</span>
+</button>
             </nav>
 
             <div class="p-3 border-t border-slate-800 space-y-2 bg-slate-900/50">
@@ -577,7 +581,87 @@
                     </table>
                 </div>
             </section>
+<!-- 11. PARÁMETROS GLOBALES -->
+<section id="sec-parametros" class="space-y-6 hidden">
+    <div>
+        <h2 class="text-2xl font-bold text-white">Parámetros Globales de Costeo</h2>
+        <p class="text-sm text-slate-400">Valores por defecto que se aplican en el Cotizador y en el Catálogo de productos</p>
+    </div>
 
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Formulario -->
+        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-4">
+            <h3 class="text-base font-bold text-sky-400 border-b border-slate-800 pb-2 flex items-center">
+                <i class="fa-solid fa-sliders mr-2"></i> Valores Configurables
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Tasa de Fallo (%)</label>
+                    <input id="param-tasa-fallo" type="number" min="0" step="1" value="10" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-rose-400 font-bold outline-none focus:border-rose-500">
+                    <p class="text-[10px] text-slate-500 mt-1">% sobre el costo del material para amortizar impresiones fallidas</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Costo Hora Máquina/Luz ($/h)</label>
+                    <input id="param-costo-h" type="number" min="0" step="0.01" value="0.35" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-white font-bold outline-none focus:border-sky-500">
+                    <p class="text-[10px] text-slate-500 mt-1">Costo por hora de uso de la impresora + electricidad</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Tarifa Mano de Obra ($/h)</label>
+                    <input id="param-tarifa-mo" type="number" min="0" step="0.01" value="5.00" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-purple-400 font-bold outline-none focus:border-purple-500">
+                    <p class="text-[10px] text-slate-500 mt-1">Valor monetario de 1 hora de tu trabajo</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Min. Mano Obra por 100g</label>
+                    <input id="param-min-mo-100g" type="number" min="0" step="1" value="10" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-purple-400 font-bold outline-none focus:border-purple-500">
+                    <p class="text-[10px] text-slate-500 mt-1">Minutos de trabajo estimados por cada 100g de material</p>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-2 pt-2 border-t border-slate-800">
+                <button onclick="resetParametros()" class="px-4 py-2 bg-slate-800 text-slate-300 text-sm rounded-lg hover:bg-slate-700 flex items-center space-x-2">
+                    <i class="fa-solid fa-rotate-left"></i> <span>Restaurar</span>
+                </button>
+                <button onclick="guardarParametros()" class="px-4 py-2 bg-sky-600 text-white text-sm font-bold rounded-lg hover:bg-sky-500 flex items-center space-x-2">
+                    <i class="fa-solid fa-floppy-disk"></i> <span>Guardar Parámetros</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Explicación -->
+        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-4">
+            <h3 class="text-base font-bold text-emerald-400 border-b border-slate-800 pb-2 flex items-center">
+                <i class="fa-solid fa-circle-info mr-2"></i> ¿Cómo se aplican?
+            </h3>
+
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 space-y-2">
+                <p class="font-semibold text-xs uppercase tracking-wide text-rose-400">Colchón de Fallo</p>
+                <p class="text-slate-400 text-xs">Se suma al costo del material para amortiguar reintentos por impresiones fallidas.</p>
+                <p class="text-slate-300 font-mono text-xs bg-slate-900 p-2 rounded">Colchón = Costo Material × (Tasa Fallo / 100)</p>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 space-y-2">
+                <p class="font-semibold text-xs uppercase tracking-wide text-purple-400">Mano de Obra</p>
+                <p class="text-slate-400 text-xs">Proporcional a los gramos: <b>más material = más tiempo de trabajo</b>.</p>
+                <p class="text-slate-300 font-mono text-xs bg-slate-900 p-2 rounded">M.O. = (g / 100) × (min MO/100g ÷ 60) × Tarifa $/h</p>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800 space-y-2">
+                <p class="font-semibold text-xs uppercase tracking-wide text-sky-400">Ejemplo: 100g, 2h, PETG $21.15/kg</p>
+                <ul class="text-xs text-slate-400 space-y-1 mt-2">
+                    <li>Material: 100 × 0.02115 = <span class="text-sky-400 font-bold">$2.12</span></li>
+                    <li>Colchón (10%): <span class="text-rose-400 font-bold">$0.21</span></li>
+                    <li>Máquina (2h × $0.35): <span class="text-white font-bold">$0.70</span></li>
+                    <li>M.O. (10min/100g × $5/h): <span class="text-purple-400 font-bold">$0.83</span></li>
+                    <li class="pt-1 border-t border-slate-800">Costo Total: <span class="text-amber-400 font-bold">$3.86</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
         </main>
     </div>
 
@@ -978,6 +1062,7 @@
                 alert("Error crítico: No se cargó la librería de Supabase. Revisa tu conexión.");
                 return;
             }
+			cargarParametros(); 
             checkAuth();
 
             supabaseClient.auth.onAuthStateChange((event, session) => {
@@ -1564,6 +1649,7 @@ function renderDashboard() {
             selectCat.innerHTML = appData.categorias.map(c => `<option value="${c.nombre}">${c.nombre}</option>`).join('');
             if(appData.categorias.length === 0) selectCat.innerHTML = '<option value="General">General</option>';
             agregarFilaMaterialCatalogo();
+			aplicarParametrosEnUI(); 
         }
 
         function agregarFilaMaterialCatalogo(selectedMatId = null, selectedCant = 50) {
@@ -1748,6 +1834,7 @@ document.getElementById('cat-min-mo-100g').value = '10';
 
         // ==================== COTIZADOR RÁPIDO ====================
         function initCotizador() {
+			aplicarParametrosEnUI();
             const container = document.getElementById('calc-materiales-container');
             if (container.children.length === 0) agregarFilaMaterialCotizador();
             else calcularCotizacion();
@@ -2309,6 +2396,71 @@ function calcularCotizacion() {
             openModal('modal-tarea');
         }
         async function eliminarTarea(id) { if (confirm('¿Eliminar tarea?')) { await supabaseClient.from('tareas').delete().eq('id', id); await fetchAllData(); } }
+		// ==================== PARÁMETROS GLOBALES ====================
+const PARAM_DEFAULTS = {
+    tasaFallo: 10,
+    costoHoraMaquina: 0.35,
+    tarifaMO: 5.00,
+    minMO100g: 10
+};
+
+let globalParams = { ...PARAM_DEFAULTS };
+
+function cargarParametros() {
+    try {
+        const saved = localStorage.getItem('taller3d_params');
+        if (saved) globalParams = { ...PARAM_DEFAULTS, ...JSON.parse(saved) };
+    } catch(e) {
+        console.warn('Error cargando parámetros, usando defaults', e);
+        globalParams = { ...PARAM_DEFAULTS };
+    }
+}
+
+function guardarParametros() {
+    globalParams = {
+        tasaFallo: parseFloat(document.getElementById('param-tasa-fallo').value) || 0,
+        costoHoraMaquina: parseFloat(document.getElementById('param-costo-h').value) || 0,
+        tarifaMO: parseFloat(document.getElementById('param-tarifa-mo').value) || 0,
+        minMO100g: parseFloat(document.getElementById('param-min-mo-100g').value) || 0
+    };
+    localStorage.setItem('taller3d_params', JSON.stringify(globalParams));
+    aplicarParametrosEnUI();
+    showToast('Parámetros guardados correctamente');
+}
+
+function resetParametros() {
+    if (!confirm('¿Restaurar los valores por defecto?')) return;
+    globalParams = { ...PARAM_DEFAULTS };
+    localStorage.setItem('taller3d_params', JSON.stringify(globalParams));
+    aplicarParametrosEnUI();
+    showToast('Parámetros restaurados');
+}
+
+function aplicarParametrosEnUI() {
+    // Sección Parámetros
+    const pTF = document.getElementById('param-tasa-fallo');
+    if (pTF) {
+        pTF.value = globalParams.tasaFallo;
+        document.getElementById('param-costo-h').value = globalParams.costoHoraMaquina;
+        document.getElementById('param-tarifa-mo').value = globalParams.tarifaMO;
+        document.getElementById('param-min-mo-100g').value = globalParams.minMO100g;
+    }
+    // Cotizador
+    const cTF = document.getElementById('calc-tasa-fallo');
+    if (cTF) {
+        cTF.value = globalParams.tasaFallo;
+        document.getElementById('calc-costo-h').value = globalParams.costoHoraMaquina;
+        document.getElementById('calc-tarifa-mo').value = globalParams.tarifaMO;
+        document.getElementById('calc-min-mo-100g').value = globalParams.minMO100g;
+    }
+    // Modal Catálogo
+    const catTF = document.getElementById('cat-tasa-fallo');
+    if (catTF) {
+        catTF.value = globalParams.tasaFallo;
+        document.getElementById('cat-tarifa-mo').value = globalParams.tarifaMO;
+        document.getElementById('cat-min-mo-100g').value = globalParams.minMO100g;
+    }
+}
     </script>
 </body>
 </html>
