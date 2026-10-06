@@ -262,16 +262,31 @@
                             <input id="calc-material-info" type="text" readonly placeholder="Se calcula automáticamente..." class="w-full bg-slate-950/60 border border-slate-800 rounded-lg p-2 text-xs text-sky-400 outline-none">
                         </div>
 
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-300 mb-1">Tiempo Impresión (Minutos)</label>
-                                <input id="calc-minutos" type="number" value="30" oninput="calcularCotizacion()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm focus:border-sky-500 outline-none text-white">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-slate-300 mb-1">Costo Hora Máquina/Luz ($/h)</label>
-                                <input id="calc-costo-h" type="number" value="0.35" step="0.01" oninput="calcularCotizacion()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm focus:border-sky-500 outline-none text-white">
-                            </div>
-                        </div>
+                       <div class="grid grid-cols-2 gap-3">
+    <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Tiempo Impresión (Minutos)</label>
+        <input id="calc-minutos" type="number" value="30" oninput="calcularCotizacion()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm focus:border-sky-500 outline-none text-white">
+    </div>
+    <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Costo Hora Máquina/Luz ($/h)</label>
+        <input id="calc-costo-h" type="number" value="0.35" step="0.01" oninput="calcularCotizacion()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm focus:border-sky-500 outline-none text-white">
+    </div>
+</div>
+
+<div class="grid grid-cols-3 gap-3 pt-2 border-t border-slate-800">
+    <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Tasa de Fallo (%)</label>
+        <input id="calc-tasa-fallo" type="number" value="10" step="1" min="0" oninput="calcularCotizacion()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm focus:border-rose-500 outline-none text-rose-400 font-bold">
+    </div>
+    <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Tarifa Mano Obra ($/h)</label>
+        <input id="calc-tarifa-mo" type="number" value="5.00" step="0.01" min="0" oninput="calcularCotizacion()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm focus:border-purple-500 outline-none text-purple-400 font-bold">
+    </div>
+    <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Min. M.O. por 100g</label>
+        <input id="calc-min-mo-100g" type="number" value="10" step="1" min="0" oninput="calcularCotizacion()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-sm focus:border-purple-500 outline-none text-purple-400 font-bold">
+    </div>
+</div>
                     </div>
 
                     <div class="lg:col-span-2 bg-slate-900 border border-slate-800 p-5 rounded-xl space-y-6 flex flex-col justify-between">
@@ -279,24 +294,32 @@
                             <h3 class="text-base font-bold text-emerald-400 border-b border-slate-800 pb-2 flex items-center">
                                 <i class="fa-solid fa-chart-line mr-2"></i> Costos Calculados y Precios Sugeridos
                             </h3>
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
-                                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                                    <p class="text-xs text-slate-400">Costo Material</p>
-                                    <p id="res-costo-mat" class="text-lg font-bold text-sky-400 mt-0.5">$0.00</p>
-                                </div>
-                                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                                    <p class="text-xs text-slate-400">Costo Máquina</p>
-                                    <p id="res-costo-maq" class="text-lg font-bold text-white mt-0.5">$0.00</p>
-                                </div>
-                                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                                    <p class="text-xs text-slate-400">Costo Total</p>
-                                    <p id="res-costo-total" class="text-lg font-bold text-amber-400 mt-0.5">$0.00</p>
-                                </div>
-                                <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
-                                    <p class="text-xs text-slate-400">Eficiencia ($/h)</p>
-                                    <p id="res-eficiencia" class="text-lg font-bold text-emerald-400 mt-0.5">$0.00/h</p>
-                                </div>
-                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-4">
+    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+        <p class="text-[10px] text-slate-400">Costo Material</p>
+        <p id="res-costo-mat" class="text-base font-bold text-sky-400 mt-0.5">$0.00</p>
+    </div>
+    <div class="bg-slate-950 p-3 rounded-lg border border-rose-500/30">
+        <p class="text-[10px] text-slate-400">Colchón Fallo</p>
+        <p id="res-costo-fallo" class="text-base font-bold text-rose-400 mt-0.5">$0.00</p>
+    </div>
+    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+        <p class="text-[10px] text-slate-400">Costo Máquina</p>
+        <p id="res-costo-maq" class="text-base font-bold text-white mt-0.5">$0.00</p>
+    </div>
+    <div class="bg-slate-950 p-3 rounded-lg border border-purple-500/30">
+        <p class="text-[10px] text-slate-400">Mano de Obra</p>
+        <p id="res-costo-mo" class="text-base font-bold text-purple-400 mt-0.5">$0.00</p>
+    </div>
+    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+        <p class="text-[10px] text-slate-400">Costo Total</p>
+        <p id="res-costo-total" class="text-base font-bold text-amber-400 mt-0.5">$0.00</p>
+    </div>
+    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+        <p class="text-[10px] text-slate-400">Eficiencia ($/h)</p>
+        <p id="res-eficiencia" class="text-base font-bold text-emerald-400 mt-0.5">$0.00/h</p>
+    </div>
+</div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                                 <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 space-y-1">
@@ -679,16 +702,20 @@
                     <input id="cat-material-info" type="text" placeholder="Ej. PETG Negro (100gr) + Marcador (1und)" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-white outline-none focus:border-sky-500">
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-300 mb-1">Gramos Filamento (g)</label>
-                        <input id="cat-gramos" type="number" readonly placeholder="0" class="w-full bg-slate-950/60 border border-slate-800 rounded-lg p-2.5 text-sm text-slate-300 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-slate-300 mb-1">Horas de Impresión</label>
-                        <input id="cat-horas" type="number" step="0.1" value="1" oninput="calcularCostosCatalogoAuto()" placeholder="2.5" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-white outline-none focus:border-sky-500">
-                    </div>
-                </div>
+                <div class="grid grid-cols-3 gap-3">
+    <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Tasa de Fallo (%)</label>
+        <input id="cat-tasa-fallo" type="number" value="10" step="1" min="0" oninput="calcularCostosCatalogoAuto()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-rose-400 font-bold outline-none focus:border-rose-500">
+    </div>
+    <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Tarifa M.O. ($/h)</label>
+        <input id="cat-tarifa-mo" type="number" value="5.00" step="0.01" min="0" oninput="calcularCostosCatalogoAuto()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-purple-400 font-bold outline-none focus:border-purple-500">
+    </div>
+    <div>
+        <label class="block text-xs font-medium text-slate-300 mb-1">Min. M.O. /100g</label>
+        <input id="cat-min-mo-100g" type="number" value="10" step="1" min="0" oninput="calcularCostosCatalogoAuto()" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-sm text-purple-400 font-bold outline-none focus:border-purple-500">
+    </div>
+</div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -1564,33 +1591,43 @@ function renderDashboard() {
         }
 
         function calcularCostosCatalogoAuto() {
-            let totalCostoFilamento = 0, totalGramos = 0, infoParts = [];
-            document.querySelectorAll('.cat-material-row').forEach(row => {
-                const sel = row.querySelector('.cat-mat-select').value;
-                const cant = parseFloat(row.querySelector('.cat-mat-gramos').value) || 0;
-                const mat = appData.inventario.find(i => String(i.id) === String(sel));
-                if (mat) {
-                    const costoUnit = mat.total > 0 ? (mat.costoKg / mat.total) : 0;
-                    totalCostoFilamento += cant * costoUnit;
-                    const unidad = mat.unidad || 'gr';
-                    if (unidad === 'gr') {
-                        totalGramos += cant;
-                    }
-                    if(cant > 0) infoParts.push(`${mat.material} (${cant}${unidad})`);
-                }
-            });
-
-            const horas = parseFloat(document.getElementById('cat-horas').value) || 0;
-            const costoMaq = horas * 0.35;
-            const costoTotal = totalCostoFilamento + costoMaq;
-
-            document.getElementById('cat-gramos').value = totalGramos.toFixed(0);
-            document.getElementById('cat-costo-filamento').value = totalCostoFilamento.toFixed(2);
-            document.getElementById('cat-costo').value = costoTotal.toFixed(2);
-            document.getElementById('cat-precio-min').value = (costoTotal / 0.70).toFixed(2);
-            document.getElementById('cat-precio').value = (costoTotal / 0.40).toFixed(2);
-            document.getElementById('cat-material-info').value = infoParts.join(' + ') || 'Configurado';
+    let totalCostoFilamento = 0, totalGramos = 0, infoParts = [];
+    document.querySelectorAll('.cat-material-row').forEach(row => {
+        const sel = row.querySelector('.cat-mat-select').value;
+        const cant = parseFloat(row.querySelector('.cat-mat-gramos').value) || 0;
+        const mat = appData.inventario.find(i => String(i.id) === String(sel));
+        if (mat) {
+            const costoUnit = mat.total > 0 ? (mat.costoKg / mat.total) : 0;
+            totalCostoFilamento += cant * costoUnit;
+            const unidad = mat.unidad || 'gr';
+            if (unidad === 'gr') totalGramos += cant;
+            if(cant > 0) infoParts.push(`${mat.material} (${cant}${unidad})`);
         }
+    });
+
+    // 🆕 Colchón de fallo
+    const tasaFallo = parseFloat(document.getElementById('cat-tasa-fallo').value) || 0;
+    const costoFallo = totalCostoFilamento * (tasaFallo / 100);
+
+    // Costo máquina
+    const horas = parseFloat(document.getElementById('cat-horas').value) || 0;
+    const costoMaq = horas * 0.35;
+
+    // 🆕 Mano de obra proporcional a gramos
+    const tarifaMO = parseFloat(document.getElementById('cat-tarifa-mo').value) || 0;
+    const minMO100g = parseFloat(document.getElementById('cat-min-mo-100g').value) || 0;
+    const costoMO = (totalGramos / 100) * (minMO100g / 60) * tarifaMO;
+
+    // Costo total = material + fallo + máquina + M.O.
+    const costoTotal = totalCostoFilamento + costoFallo + costoMaq + costoMO;
+
+    document.getElementById('cat-gramos').value = totalGramos.toFixed(0);
+    document.getElementById('cat-costo-filamento').value = (totalCostoFilamento + costoFallo).toFixed(2); // incluye colchón
+    document.getElementById('cat-costo').value = costoTotal.toFixed(2);
+    document.getElementById('cat-precio-min').value = (costoTotal / 0.70).toFixed(2);
+    document.getElementById('cat-precio').value = (costoTotal / 0.40).toFixed(2);
+    document.getElementById('cat-material-info').value = infoParts.join(' + ') || 'Configurado';
+}
 
         async function guardarCatalogoManually() {
             const id = document.getElementById('cat-edit-id').value || `P-${Date.now()}`;
@@ -1641,6 +1678,9 @@ function renderDashboard() {
             document.getElementById('cat-en-tienda').checked = item.enTienda || false;
             document.getElementById('cat-imagen-url').value = item.imagenUrl || '';
             document.getElementById('cat-horas').value = item.horas;
+			document.getElementById('cat-tasa-fallo').value = '10';
+document.getElementById('cat-tarifa-mo').value = '5.00';
+document.getElementById('cat-min-mo-100g').value = '10';
 
             const selectCat = document.getElementById('cat-categoria');
             selectCat.innerHTML = appData.categorias.map(c => `<option value="${c.nombre}" ${c.nombre === item.categoria ? 'selected' : ''}>${c.nombre}</option>`).join('');
@@ -1737,64 +1777,78 @@ function renderDashboard() {
             if (row && document.querySelectorAll('.calc-material-row').length > 1) { row.remove(); calcularCotizacion(); }
         }
 
-        function calcularCotizacion() {
-            let totalMat = 0, infoParts = [];
-            document.querySelectorAll('.calc-material-row').forEach(r => {
-                const sel = r.querySelector('select').value;
-                const cant = parseFloat(r.querySelector('input').value) || 0;
-                const mat = appData.inventario.find(i => String(i.id) === String(sel));
-                if (mat) { 
-                    const costoUnit = mat.total > 0 ? (mat.costoKg / mat.total) : 0;
-                    totalMat += cant * costoUnit; 
-                    const und = mat.unidad || 'gr';
-                    if (cant > 0) infoParts.push(`${mat.material} (${cant}${und})`); 
-                }
-            });
-            
-            document.getElementById('calc-material-info').value = infoParts.join(' + ');
-            document.getElementById('res-costo-mat').innerText = `$${totalMat.toFixed(2)}`;
-            const min = parseFloat(document.getElementById('calc-minutos').value) || 0;
-            const costH = parseFloat(document.getElementById('calc-costo-h').value) || 0;
-            const maq = (min / 60) * costH;
-            const tot = totalMat + maq;
-            
-            document.getElementById('res-costo-maq').innerText = `$${maq.toFixed(2)}`;
-            document.getElementById('res-costo-total').innerText = `$${tot.toFixed(2)}`;
-            document.getElementById('res-precio-min').innerText = `$${(tot / 0.7).toFixed(2)}`;
-            const precioSug = tot / 0.4;
-            document.getElementById('res-precio-sug').innerText = `$${precioSug.toFixed(2)}`;
-            document.getElementById('res-eficiencia').innerText = `$${(min > 0 ? (precioSug - tot)/(min/60) : 0).toFixed(2)}/h`;
+function calcularCotizacion() {
+    let totalMat = 0, infoParts = [], totalGramos = 0;
+    document.querySelectorAll('.calc-material-row').forEach(r => {
+        const sel = r.querySelector('select').value;
+        const cant = parseFloat(r.querySelector('input').value) || 0;
+        const mat = appData.inventario.find(i => String(i.id) === String(sel));
+        if (mat) { 
+            const costoUnit = mat.total > 0 ? (mat.costoKg / mat.total) : 0;
+            totalMat += cant * costoUnit;
+            totalGramos += cant;
+            const und = mat.unidad || 'gr';
+            if (cant > 0) infoParts.push(`${mat.material} (${cant}${und})`); 
         }
+    });
+    
+    document.getElementById('calc-material-info').value = infoParts.join(' + ');
+    document.getElementById('res-costo-mat').innerText = `$${totalMat.toFixed(2)}`;
 
-        async function agregarCotizacionAlCatalogo() {
-            const nombre = document.getElementById('calc-nombre').value || 'Producto Cotizado';
-            const costMat = parseFloat(document.getElementById('res-costo-mat').innerText.replace('$', '')) || 0;
-            const costTotal = parseFloat(document.getElementById('res-costo-total').innerText.replace('$', '')) || 0;
-            const precioMin = parseFloat(document.getElementById('res-precio-min').innerText.replace('$', '')) || 0;
-            const precioSug = parseFloat(document.getElementById('res-precio-sug').innerText.replace('$', '')) || 0;
-            const mins = parseFloat(document.getElementById('calc-minutos').value) || 0;
-            const materialInfo = document.getElementById('calc-material-info').value || 'Cotización';
-            
-            let totalGramos = 0;
-            document.querySelectorAll('.calc-material-row').forEach(r => {
-                const sel = r.querySelector('select').value;
-                const cant = parseFloat(r.querySelector('input').value) || 0;
-                const mat = appData.inventario.find(i => String(i.id) === String(sel));
-                if (mat && (mat.unidad === 'gr' || !mat.unidad)) {
-                    totalGramos += cant;
-                }
-            });
+    // 🆕 Colchón de fallo
+    const tasaFallo = parseFloat(document.getElementById('calc-tasa-fallo').value) || 0;
+    const costoFallo = totalMat * (tasaFallo / 100);
+    document.getElementById('res-costo-fallo').innerText = `$${costoFallo.toFixed(2)}`;
 
-            const payload = {
-                id: `P-${Date.now()}`, producto: nombre, categoria: appData.categorias.length > 0 ? appData.categorias[0].nombre : 'General',
-                descripcion: '', colores: '', imagen_url: '', material_info: materialInfo, gramos: totalGramos, horas: mins / 60,
-                costo_filamento: costMat, costo: costTotal, precio_min: precioMin, precio: precioSug, en_tienda: false
-            };
+    // Costo máquina
+    const min = parseFloat(document.getElementById('calc-minutos').value) || 0;
+    const costH = parseFloat(document.getElementById('calc-costo-h').value) || 0;
+    const maq = (min / 60) * costH;
+    document.getElementById('res-costo-maq').innerText = `$${maq.toFixed(2)}`;
 
-            const { error } = await supabaseClient.from('catalogo').insert(payload);
-            if (!error) { showToast('Cotización agregada al catálogo'); await fetchAllData(); showTab('catalogo'); }
-        }
+    // 🆕 Mano de obra proporcional a gramos
+    const tarifaMO = parseFloat(document.getElementById('calc-tarifa-mo').value) || 0;
+    const minMO100g = parseFloat(document.getElementById('calc-min-mo-100g').value) || 0;
+    const costoMO = (totalGramos / 100) * (minMO100g / 60) * tarifaMO;
+    document.getElementById('res-costo-mo').innerText = `$${costoMO.toFixed(2)}`;
 
+    // Costo total (material + fallo + máquina + M.O.)
+    const tot = totalMat + costoFallo + maq + costoMO;
+    document.getElementById('res-costo-total').innerText = `$${tot.toFixed(2)}`;
+    document.getElementById('res-precio-min').innerText = `$${(tot / 0.7).toFixed(2)}`;
+    const precioSug = tot / 0.4;
+    document.getElementById('res-precio-sug').innerText = `$${precioSug.toFixed(2)}`;
+    document.getElementById('res-eficiencia').innerText = `$${(min > 0 ? (precioSug - tot)/(min/60) : 0).toFixed(2)}/h`;
+}
+
+      async function agregarCotizacionAlCatalogo() {
+    const nombre = document.getElementById('calc-nombre').value || 'Producto Cotizado';
+    const costMat = parseFloat(document.getElementById('res-costo-mat').innerText.replace('$', '')) || 0;
+    const costFallo = parseFloat(document.getElementById('res-costo-fallo').innerText.replace('$', '')) || 0;
+    const costTotal = parseFloat(document.getElementById('res-costo-total').innerText.replace('$', '')) || 0;
+    const precioMin = parseFloat(document.getElementById('res-precio-min').innerText.replace('$', '')) || 0;
+    const precioSug = parseFloat(document.getElementById('res-precio-sug').innerText.replace('$', '')) || 0;
+    const mins = parseFloat(document.getElementById('calc-minutos').value) || 0;
+    const materialInfo = document.getElementById('calc-material-info').value || 'Cotización';
+    
+    let totalGramos = 0;
+    document.querySelectorAll('.calc-material-row').forEach(r => {
+        const sel = r.querySelector('select').value;
+        const cant = parseFloat(r.querySelector('input').value) || 0;
+        const mat = appData.inventario.find(i => String(i.id) === String(sel));
+        if (mat && (mat.unidad === 'gr' || !mat.unidad)) totalGramos += cant;
+    });
+
+    const payload = {
+        id: `P-${Date.now()}`, producto: nombre, categoria: appData.categorias.length > 0 ? appData.categorias[0].nombre : 'General',
+        descripcion: '', colores: '', imagen_url: '', material_info: materialInfo, gramos: totalGramos, horas: mins / 60,
+        costo_filamento: costMat + costFallo,  // 👈 incluye el colchón de fallo
+        costo: costTotal, precio_min: precioMin, precio: precioSug, en_tienda: false
+    };
+
+    const { error } = await supabaseClient.from('catalogo').insert(payload);
+    if (!error) { showToast('Cotización agregada al catálogo'); await fetchAllData(); showTab('catalogo'); }
+}
         // ==================== VENTAS ====================
         function renderVentas() {
             const tbody = document.getElementById('tabla-ventas');
