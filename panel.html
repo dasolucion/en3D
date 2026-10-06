@@ -1231,7 +1231,6 @@ function renderDashboard() {
     const utilidadBruta = ingresos - costoVentas;
     const utilidad = utilidadBruta - costoMuestras;
 
-    // 🆕 Márgenes
     const margenBruto = ingresos > 0 ? (utilidadBruta / ingresos) * 100 : 0;
     const margen = ingresos > 0 ? (utilidad / ingresos) * 100 : 0;
 
@@ -1242,27 +1241,10 @@ function renderDashboard() {
     document.getElementById('kpi-muestras').innerText = `$${costoMuestras.toFixed(2)}`;
     document.getElementById('kpi-utilidad').innerText = `$${utilidad.toFixed(2)}`;
     document.getElementById('kpi-margen').innerText = `${margen.toFixed(1)}% margen global`;
-
-    // 🆕 Render margen bruto
     document.getElementById('kpi-margen-bruto').innerText = `${margenBruto.toFixed(1)}% margen bruto`;
 
     updateCharts(ingresos, costoFilamentoTotal, costoVentas, utilidadBruta, costoMuestras, utilidad);
 }
-
-            const utilidadBruta = ingresos - costoVentas;
-            const utilidad = utilidadBruta - costoMuestras;
-            const margen = ingresos > 0 ? (utilidad / ingresos) * 100 : 0;
-
-            document.getElementById('kpi-ingresos').innerText = `$${ingresos.toFixed(2)}`;
-            document.getElementById('kpi-costo-filamento').innerText = `$${costoFilamentoTotal.toFixed(2)}`;
-            document.getElementById('kpi-costo-ventas').innerText = `$${costoVentas.toFixed(2)}`;
-            document.getElementById('kpi-utilidad-bruta').innerText = `$${utilidadBruta.toFixed(2)}`;
-            document.getElementById('kpi-muestras').innerText = `$${costoMuestras.toFixed(2)}`;
-            document.getElementById('kpi-utilidad').innerText = `$${utilidad.toFixed(2)}`;
-            document.getElementById('kpi-margen').innerText = `${margen.toFixed(1)}% margen global`;
-
-            updateCharts(ingresos, costoFilamentoTotal, costoVentas, utilidadBruta, costoMuestras, utilidad);
-        }
 
         function updateCharts(ingresos, costoFilamentoTotal, costoVentas, utilidadBruta, costoMuestras, utilidad) {
             if (typeof Chart === 'undefined') return;
