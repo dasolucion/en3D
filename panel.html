@@ -173,10 +173,11 @@
                         <p class="text-[10px] sm:text-xs font-medium text-slate-400">Costo de Ventas (Total)</p>
                         <h3 id="kpi-costo-ventas" class="text-xl sm:text-2xl font-bold text-rose-400 mt-1">$0.00</h3>
                     </div>
-                    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm hover:border-slate-700 transition">
-                        <p class="text-[10px] sm:text-xs font-medium text-slate-400">Utilidad Bruta</p>
-                        <h3 id="kpi-utilidad-bruta" class="text-xl sm:text-2xl font-bold text-sky-400 mt-1">$0.00</h3>
-                    </div>
+<div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm hover:border-slate-700 transition">
+    <p class="text-[10px] sm:text-xs font-medium text-slate-400">Utilidad Bruta</p>
+    <h3 id="kpi-utilidad-bruta" class="text-xl sm:text-2xl font-bold text-sky-400 mt-1">$0.00</h3>
+    <p id="kpi-margen-bruto" class="text-[10px] text-sky-500 font-semibold mt-1">0.0% margen bruto</p>
+</div>
                     <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl shadow-sm hover:border-slate-700 transition">
                         <p class="text-[10px] sm:text-xs font-medium text-slate-400">Inv. en Muestras</p>
                         <h3 id="kpi-muestras" class="text-xl sm:text-2xl font-bold text-orange-400 mt-1">$0.00</h3>
@@ -1212,20 +1213,41 @@
         }
 
         // ==================== DASHBOARD ====================
-        function renderDashboard() {
-            const ingresos = appData.ventas.reduce((a, b) => a + (b.total || 0), 0);
-            const costoVentas = appData.ventas.reduce((a, b) => a + (b.costo || 0), 0);
-            const costoMuestras = appData.muestras.reduce((a, b) => a + (b.costo || 0), 0);
-            
-            let costoFilamentoTotal = 0;
-            appData.ventas.forEach(v => {
-                (v.items || []).forEach(it => {
-                    const prod = appData.catalogo.find(c => c.producto === it.producto || String(c.id) === String(it.id));
-                    if(prod) {
-                        costoFilamentoTotal += (prod.costoFilamento || 0) * (it.cant || 1);
-                    }
-                });
-            });
+function renderDashboard() {
+    const ingresos = appData.ventas.reduce((a, b) => a + (b.total || 0), 0);
+    const costoVentas = appData.ventas.reduce((a, b) => a + (b.costo || 0), 0);
+    const costoMuestras = appData.muestras.reduce((a, b) => a + (b.costo || 0), 0);
+    
+    let costoFilamentoTotal = 0;
+    appData.ventas.forEach(v => {
+        (v.items || []).forEach(it => {
+            const prod = appData.catalogo.find(c => c.producto === it.producto || String(c.id) === String(it.id));
+            if(prod) {
+                costoFilamentoTotal += (prod.costoFilamento || 0) * (it.cant || 1);
+            }
+        });
+    });
+
+    const utilidadBruta = ingresos - costoVentas;
+    const utilidad = utilidadBruta - costoMuestras;
+
+    // 🆕 Márgenes
+    const margenBruto = ingresos > 0 ? (utilidadBruta / ingresos) * 100 : 0;
+    const margen = ingresos > 0 ? (utilidad / ingresos) * 100 : 0;
+
+    document.getElementById('kpi-ingresos').innerText = `$${ingresos.toFixed(2)}`;
+    document.getElementById('kpi-costo-filamento').innerText = `$${costoFilamentoTotal.toFixed(2)}`;
+    document.getElementById('kpi-costo-ventas').innerText = `$${costoVentas.toFixed(2)}`;
+    document.getElementById('kpi-utilidad-bruta').innerText = `$${utilidadBruta.toFixed(2)}`;
+    document.getElementById('kpi-muestras').innerText = `$${costoMuestras.toFixed(2)}`;
+    document.getElementById('kpi-utilidad').innerText = `$${utilidad.toFixed(2)}`;
+    document.getElementById('kpi-margen').innerText = `${margen.toFixed(1)}% margen global`;
+
+    // 🆕 Render margen bruto
+    document.getElementById('kpi-margen-bruto').innerText = `${margenBruto.toFixed(1)}% margen bruto`;
+
+    updateCharts(ingresos, costoFilamentoTotal, costoVentas, utilidadBruta, costoMuestras, utilidad);
+}
 
             const utilidadBruta = ingresos - costoVentas;
             const utilidad = utilidadBruta - costoMuestras;
